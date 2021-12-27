@@ -1,0 +1,14 @@
+@import '../../index.scss';
+
+.homepage {
+    padding: 0 15px 50px;
+    &__container {
+        @extend %wrapper;
+    }
+    &__comments-list {
+        margin-top: 32px;
+        padding-top: 32px;
+        border-top: 2px solid #CDD7E5;
+        border-radius: 1px;
+    }
+}
