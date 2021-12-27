@@ -1,0 +1,61 @@
+@import "/src/index.scss";
+
+.user-form {
+    max-width: 500px;
+    width: 100%;
+    margin: 30px auto 0;
+    &__content {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    &__image {
+
+    }
+
+    &__wrap {
+        @include center;
+        flex-direction: column;
+    }
+
+    &__name {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    &__data {
+        margin-top: 15px;
+        font-weight: 500;
+    }
+
+    &__desc {
+        margin-top: 20px;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 23px;
+    }
+
+    &__buttons {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    &__button {
+        
+        width: 100px;
+        height: 35px;
+        @include center;
+        border: 1px solid #000;
+        border-radius: 12px;
+        transition: 0.3s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            background: #000;
+            color: #fff;
+        }
+    }
+}

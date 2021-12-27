@@ -1,3 +1,4 @@
+import { User } from '../../../entities';
 import { IPayload } from '../../../interfaces/redux';
 import {
   USERS_LOAD,
@@ -7,9 +8,9 @@ import {
   USERS_EDIT,
 } from '../actions/users';
 
-const initialState: any[] = [];
+const initialState: User[] = [];
 
-export const usersReducer = (state: any[], action: IPayload<any>) => {
+export const usersReducer = (state: User[], action: IPayload<any>) => {
   switch (action.type) {
     case USERS_LOAD:
       return action.payload;

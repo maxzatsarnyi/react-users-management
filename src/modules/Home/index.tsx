@@ -13,8 +13,9 @@ import { v4 as uuid } from 'uuid';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { User } from '../../entities';
+import { Users } from '../../app/components/Users';
 
-export const HomePage = () => {
+const HomePage = () => {
   const dispatch = useDispatch();
   const users: any[] = useSelector((state: RootState) => state.users);
 
@@ -35,10 +36,11 @@ export const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(users, ' users');
   return (
-    <div className='homepage'>
-      <div className='homepage__container'>
+    <div className='home'>
+      <div className='home__container'>
+        <h1>Users page</h1>
+        <Users />
         <ToastContainer
           position='bottom-left'
           autoClose={3000}
@@ -54,3 +56,5 @@ export const HomePage = () => {
     </div>
   );
 };
+
+export default HomePage;

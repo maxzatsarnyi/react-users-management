@@ -1,10 +1,11 @@
-import { HomePage } from './modules/Home/index';
+import { Suspense, useState } from 'react';
+import Routes from './routes/index';
 
 function App() {
   return (
-    <div className='App'>
-      <HomePage />
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes />
+    </Suspense>
   );
 }
 

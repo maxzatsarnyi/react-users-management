@@ -1,0 +1,60 @@
+@import "/src/index.scss";
+
+.users {
+    margin: 10px auto 0;
+    max-width: 460px;
+    max-height: 500px;
+    min-height: 400px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #000;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        width: 1px;
+    }
+
+    &__item {
+        padding: 10px 25px 10px 25px;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid silver;
+        transition: 0.3s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            background: rgb(83, 157, 255);
+        }
+    }
+
+    &__item-delete {
+        @include center;
+        margin-right: 25px;
+    }
+
+    &__item-content {
+        display: inline-block;
+        display: flex;
+        width: 100%;
+    }
+
+    &__item-wrap {
+        margin-left: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    &__item-name {
+        @include center;
+        font-weight: 500;
+        width: 45%;
+    }
+    
+    &__item-date {
+        margin-top: 2px;
+    }
+}
