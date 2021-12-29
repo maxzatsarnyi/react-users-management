@@ -9,4 +9,21 @@
         @include center;
         flex-direction: column;
     }
+
+    &__button {
+        margin: 20px 0 0;
+        width: 200px;
+        height: 35px;
+        @include center;
+        border-radius: 12px;
+        transition: 0.3s ease-in-out;
+        cursor: pointer;
+        background: #000;
+        border: 1px solid #000;
+        color: #fff;
+        &:hover {
+            background: #fff;
+            color: black;
+        }
+    }
 }

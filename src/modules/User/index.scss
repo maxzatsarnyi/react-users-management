@@ -1,0 +1,14 @@
+@import '../../index.scss';
+
+.user {
+    padding: 0 15px 50px;
+    min-height: 100vh;
+    @include center;
+
+    &__container {
+        @extend %wrapper;
+        @include center;
+        flex-direction: column;
+
+    }
+}

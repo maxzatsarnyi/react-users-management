@@ -7,8 +7,9 @@ import { deleteUser } from '../../store/actions/users';
 import { RootState } from '../../store';
 import { User } from '../../../entities';
 import { v4 as uuid } from 'uuid';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getUserById } from '../../utils';
+import { ERoutes } from '../../../routes';
 
 export const Info: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ export const Info: React.FC = () => {
 
   return (
     <div className='info-form'>
-      {user && (
+      {user ? (
         <>
           <div className='info-form__content'>
             <div
@@ -43,10 +44,23 @@ export const Info: React.FC = () => {
           </div>
           <div className='info-form__desc'>{user.biography}</div>
           <div className='info-form__buttons'>
-            <div className='info-form__button'>Delete</div>
-            <div className='info-form__button'>Edit</div>
+            <Link
+              to={`${ERoutes.home}`}
+              onClick={() => dispatch(deleteUser(user.id))}
+              className='info-form__button'
+            >
+              Delete
+            </Link>
+            <Link
+              to={`/${ERoutes.user}/${user.id}`}
+              className='info-form__button'
+            >
+              Edit
+            </Link>
           </div>
         </>
+      ) : (
+        <div className='info-form__warning'>User is not found!</div>
       )}
     </div>
   );

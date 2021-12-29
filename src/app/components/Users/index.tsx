@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import deleteImg from '../../static/images/delete.svg';
@@ -12,6 +12,9 @@ import { ERoutes } from '../../../routes/index';
 export const Users: React.FC = () => {
   const dispatch = useDispatch();
   const users: User[] = useSelector((state: RootState) => state.users);
+
+  useEffect(() => {}, [users]);
+
   return (
     <ul className='users'>
       {users &&

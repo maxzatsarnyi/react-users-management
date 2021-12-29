@@ -14,6 +14,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { User } from '../../entities';
 import { Users } from '../../app/components/Users';
+import { ERoutes } from '../../routes';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -41,6 +43,9 @@ const HomePage = () => {
       <div className='home__container'>
         <h1>Users page</h1>
         <Users />
+        <Link to={`/${ERoutes.user}`} className='home__button'>
+          Add
+        </Link>
         <ToastContainer
           position='bottom-left'
           autoClose={3000}
