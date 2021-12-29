@@ -1,14 +1,13 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useEffect } from 'react';
 import './index.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { createUser, deleteUser, editUser } from '../../store/actions/users';
+import { createUser, editUser } from '../../store/actions/users';
 import { RootState } from '../../store';
 import { User } from '../../../entities';
-import { v4 as uuid } from 'uuid';
 import * as Yup from 'yup';
 import { Formik, Form } from 'formik';
 import { TextInput } from '../TextInput/index';
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ERoutes } from '../../../routes';
 import { getDate, getUserById } from '../../utils';
 import DatePicker from 'react-datepicker';
@@ -21,12 +20,15 @@ const genderOptions: { value: string; label: string }[] = [
 ];
 
 export const UserForm: React.FC = () => {
-  const dispatch = useDispatch();
   const users: User[] = useSelector((state: RootState) => state.users);
-  const navigate = useNavigate();
   const { userId } = useParams();
-  const [startDate, setStartDate] = useState(new Date());
-  const user = getUserById(users, Number(userId));
+  const user: User | undefined = userId
+    ? getUserById(users, Number(userId))
+    : undefined;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {}, [userId]);
 
   return (
     <div className='user-form'>
@@ -35,9 +37,8 @@ export const UserForm: React.FC = () => {
       </h1>
       <Formik
         initialValues={{
-          first_name: userId ? user?.first_name : '',
+          first_name: user ? user?.first_name : '',
           last_name: user ? user.last_name : '',
-          // birth_date: user ? user.birth_date : `${getDate(startDate)}`,
           birth_date: user ? new Date(user.birth_date) : new Date(),
           gender: user ? user.gender : genderOptions[0].value,
           job: user ? user.job : '',
@@ -51,7 +52,7 @@ export const UserForm: React.FC = () => {
           last_name: Yup.string()
             .max(256, 'Last Name is too long')
             .required('Required'),
-          birth_date: Yup.date().required('Required'),
+          birth_date: Yup.string(),
           gender: Yup.string().required('Required'),
           job: Yup.string().max(256, 'Job is too long').required('Required'),
           biography: Yup.string()
@@ -59,12 +60,24 @@ export const UserForm: React.FC = () => {
             .required('Required'),
           is_active: Yup.boolean(),
         })}
-        onSubmit={(values, { setSubmitting, setFieldError }) => {
-          console.log(values);
-          // id: Number(uuid()),
+        onSubmit={(values) => {
+          const newValues: User = {
+            ...values,
+            id: new Date().getTime(),
+            birth_date: getDate(values.birth_date),
+          };
+          if (user) {
+            // edit
+            dispatch(editUser(user.id, newValues));
+            navigate(`/${ERoutes.info}/${user.id}`);
+          } else {
+            // create
+            dispatch(createUser(newValues));
+            navigate(`${ERoutes.home}`);
+          }
         }}
       >
-        {({ isSubmitting, handleChange, values }) => (
+        {({ handleChange, values, setFieldValue }) => (
           <Form className='user-form__form'>
             <TextInput
               name='first_name'
@@ -82,11 +95,11 @@ export const UserForm: React.FC = () => {
               <div className='user-form__label'>Date of birth</div>
               <DatePicker
                 name='birth_date'
-                selected={new Date(values.birth_date)}
-                // onChange={(date) => setStartDate(date as Date)}
-                onChange={(date) => handleChange(date as Date)}
+                selected={values.birth_date}
+                onChange={(date) => setFieldValue('birth_date', date)}
                 dateFormat='yyyy/MM/dd'
                 className='user-form__datepicker'
+                maxDate={new Date()}
               />
             </div>
             <div className='user-form__select-wrap'>
@@ -129,9 +142,8 @@ export const UserForm: React.FC = () => {
                 onChange={handleChange}
               />
             </div>
-
             <button type='submit' className='user-form__button'>
-              {!isSubmitting ? `Done` : 'Loading...'}
+              Done
             </button>
           </Form>
         )}

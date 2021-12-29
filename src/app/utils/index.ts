@@ -1,6 +1,6 @@
 import { User } from '../../entities/index';
 
-export const getUserById = (users: User[], id: number) =>
+export const getUserById = (users: User[], id: number): User | undefined =>
   users.find((user) => user.id === id);
 
 // return date in format year-month-day from number value

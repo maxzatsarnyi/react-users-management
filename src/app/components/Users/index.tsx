@@ -18,26 +18,26 @@ export const Users: React.FC = () => {
   return (
     <ul className='users'>
       {users &&
-        users.map(({ first_name, last_name, gender, birth_date, id }) => (
+        users.map((user) => (
           <li className='users__item' key={uuid()}>
             <img
               title='delete'
               className='users__item-delete'
               src={deleteImg}
               alt='delete'
-              onClick={() => dispatch(deleteUser(id))}
+              onClick={() => dispatch(deleteUser(user?.id))}
             />
             <Link
-              to={`/${ERoutes.info}/${id}`}
+              to={`/${ERoutes.info}/${user?.id}`}
               className='users__item-content'
               onClick={() => console.log('bbb')}
             >
               <div className='users__item-name'>
-                {first_name} {last_name}
+                {user?.first_name} {user?.last_name}
               </div>
               <div className='users__item-wrap'>
-                <div className='users__item-sex'>{gender}</div>
-                <div className='users__item-date'>{birth_date}</div>
+                <div className='users__item-sex'>{user?.gender}</div>
+                <div className='users__item-date'>{user?.birth_date}</div>
               </div>
             </Link>
           </li>

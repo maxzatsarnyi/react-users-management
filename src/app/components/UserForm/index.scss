@@ -15,10 +15,6 @@
         justify-content: space-around;
     }
 
-    &__image {
-
-    }
-
     &__wrap {
         @include center;
         flex-direction: column;

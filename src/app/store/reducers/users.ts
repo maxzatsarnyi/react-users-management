@@ -10,7 +10,7 @@ import {
 
 const initialState: User[] = [];
 
-export const usersReducer = (state: User[], action: IPayload<any>) => {
+export const usersReducer = (state: User[], action: IPayload<any>): User[] => {
   switch (action.type) {
     case USERS_LOAD:
       return action.payload;
@@ -25,11 +25,11 @@ export const usersReducer = (state: User[], action: IPayload<any>) => {
       return state.filter((comment) => comment.id !== action.payload);
 
     case USERS_EDIT:
-      return state.map((comment) => {
-        if (comment.id === action.payload.id) {
+      return state.map((user) => {
+        if (user.id === action.payload.id) {
           return action.payload;
         }
-        return comment;
+        return user;
       });
 
     default: {

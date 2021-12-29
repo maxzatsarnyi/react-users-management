@@ -16,8 +16,9 @@ export const loadUsersAction = (value: User[]) => ({
   payload: value,
 });
 
-export const getUsersInfoAction = () => ({
+export const getUsersInfoAction = (value: User) => ({
   type: USERS_INFO,
+  payload: value,
 });
 
 export const createUsersAction = (value: User) => ({
@@ -25,7 +26,7 @@ export const createUsersAction = (value: User) => ({
   payload: value,
 });
 
-export const deleteUsersAction = (id: number) => ({
+export const deleteUsersAction = (id: number | undefined) => ({
   type: USERS_DELETE,
   payload: id,
 });
@@ -51,20 +52,22 @@ export const loadUsers =
       .catch((err) => console.error(err));
   };
 
-export const getUserInfo = (id: number) => async (dispatch: Dispatch) => {
-  return axios
-    .get(`${currentUrl}/contact/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .then((response) => {
-      const { data } = response;
-      console.log(data);
-      // dispatch(getUsersInfoAction(data));
-    })
-    .catch((err) => console.error(err));
-};
+export const getUserInfo =
+  (id: number, setUser: any, controller: AbortController) =>
+  async (dispatch: Dispatch) => {
+    return axios
+      .get(`${currentUrl}/contact/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        signal: controller.signal,
+      })
+      .then((response) => {
+        const { data } = response;
+        setUser(data);
+      })
+      .catch((err) => console.error(err));
+  };
 
 export const createUser = (user: User) => async (dispatch: Dispatch) => {
   return axios
@@ -75,23 +78,26 @@ export const createUser = (user: User) => async (dispatch: Dispatch) => {
     })
     .then((response) => {
       const { data } = response;
-      dispatch(createUsersAction(data[0]));
+      dispatch(createUsersAction(data));
+      toast.success('User has been created!');
     })
     .catch((err) => console.error(err));
 };
 
-export const deleteUser = (id: number) => async (dispatch: Dispatch) => {
-  return axios
-    .delete(`${currentUrl}/contact/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .then((response) => {
-      dispatch(deleteUsersAction(id));
-    })
-    .catch((err) => console.error(err));
-};
+export const deleteUser =
+  (id: number | undefined) => async (dispatch: Dispatch) => {
+    return axios
+      .delete(`${currentUrl}/contact/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(() => {
+        dispatch(deleteUsersAction(id));
+        toast.success('User has been deleted!');
+      })
+      .catch((err) => console.error(err));
+  };
 
 export const editUser =
   (id: number, data: User) => async (dispatch: Dispatch) => {
@@ -103,7 +109,8 @@ export const editUser =
       })
       .then((response) => {
         const { data } = response;
-        // dispatch(editUsersAction(data));
+        dispatch(editUsersAction(data));
+        toast.success('User has been edited!');
       })
       .catch((err) => console.error(err));
   };
